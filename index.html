@@ -44,7 +44,8 @@
         .nav-link.active { color: #f59e0b !important; }
         .nav-link.active::after { width: 100%; }
         /* ── Cinematic Gallery Card ── */
-        .cine-card { position: relative; overflow: hidden; border-radius: 1rem; cursor: pointer; aspect-ratio: 3/4; }
+        .cine-card { position: relative; overflow: hidden; border-radius: 1rem; cursor: pointer; aspect-ratio: 3/4; transition: all 0.4s ease; border: 1px solid transparent; }
+        .cine-card:hover { transform: scale(1.02); box-shadow: 0 20px 40px -10px rgba(217, 119, 6, 0.3); border-color: rgba(217, 119, 6, 0.4); }
         .cine-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.6s ease; filter: brightness(0.75); }
         .cine-card:hover img { transform: scale(1.07); filter: brightness(1); }
         .cine-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(30,18,10,0.92) 0%, rgba(30,18,10,0.3) 55%, transparent 100%); transition: opacity 0.5s ease; }
@@ -53,12 +54,12 @@
         .cine-tag { position: absolute; top: 1rem; right: 1rem; background: rgba(217,119,6,0.85); backdrop-filter: blur(4px); color: #fff; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
         
         /* ── Story Section ── */
-        .story-card { background: linear-gradient(135deg, #2d2422 0%, #3d2f2b 100%); border: 1px solid rgba(217,119,6,0.2); transition: border-color 0.3s, transform 0.3s; }
-        .story-card:hover { border-color: rgba(217,119,6,0.6); transform: translateY(-4px); }
+        .story-card { background: linear-gradient(135deg, #2d2422 0%, #3d2f2b 100%); border: 1px solid rgba(217,119,6,0.2); transition: all 0.4s ease; }
+        .story-card:hover { border-color: rgba(217,119,6,0.6); transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(217, 119, 6, 0.15); }
         
         /* ── Interaction Highlights ── */
-        .service-card { border-left: 4px solid #d97706; transition: border-color 0.3s, box-shadow 0.3s; }
-        .service-card:hover { border-left-color: #92400e; box-shadow: 0 8px 25px -5px rgba(74,63,60,0.12); }
+        .service-card { border-left: 4px solid #d97706; transition: all 0.4s ease; }
+        .service-card:hover { border-left-color: #f59e0b; transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(74,63,60,0.15); }
         .church-item { transition: background 0.2s, padding-left 0.2s, border-color 0.2s; border-left: 0 solid transparent; }
         .church-item:hover { background: rgba(217,119,6,0.08); padding-left: 1.25rem; border-left: 4px solid #d97706; }
         .church-item.active { background: rgba(217,119,6,0.12); padding-left: 1.25rem; border-left: 4px solid #d97706; }
@@ -105,9 +106,24 @@
         /* ── Stats ── */
         .stat-card { background: #fffaf0; border: 1px solid rgba(217,119,6,0.1); transition: transform 0.3s; }
         .stat-card:hover { transform: scale(1.03); border-color: rgba(217,119,6,0.3); }
+
+        /* ── Advanced Visual Effects ── */
+        .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: #d97706; z-index: 100; transition: width 0.1s ease; }
+        .hero-parallax { transition: transform 0.1s ease-out; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .float-anim { animation: float 5s ease-in-out infinite; }
+        
+        .glow-hover { transition: all 0.4s ease; }
+        .glow-hover:hover { box-shadow: 0 0 30px rgba(217, 119, 6, 0.25); border-color: rgba(217, 119, 6, 0.5); }
+        
+        /* Typing cursor */
+        .typing::after { content: '|'; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
-<body class="font-sans text-warm-800 bg-warm-50 antialiased selection:bg-amber-200 selection:text-amber-900">
+<body class="font-sans text-warm-800 bg-warm-50 antialiased selection:bg-amber-200 selection:text-amber-900 overflow-x-hidden">
+<div class="scroll-progress" id="progress-bar"></div>
 
 <!-- ── PRELOADER ── -->
 <div id="preloader">
@@ -183,7 +199,7 @@
             網路分享獎學金申請 · 2026
         </span>
         <h1 class="intro-fade delay-2 font-serif text-5xl sm:text-6xl md:text-8xl font-bold text-warm-900 leading-tight mb-3">光影與真理</h1>
-        <p class="intro-fade delay-3 font-serif text-xl sm:text-2xl md:text-3xl text-warm-700 font-light mb-6">數位攝影福音展</p>
+        <p id="typing-text" class="intro-fade delay-3 font-serif text-xl sm:text-2xl md:text-3xl text-warm-700 font-light mb-6 h-8"></p>
         <div class="intro-fade delay-4 w-24 h-px bg-amber-300 mx-auto mb-6"></div>
         <p class="intro-fade delay-5 text-base sm:text-lg text-warm-800/75 leading-relaxed max-w-2xl mx-auto mb-4">
             「用鏡頭捕捉上帝創造的美好，用影像記錄公益的足跡。」<br>
@@ -243,7 +259,7 @@
             </div>
 
             <!-- 志工 2：大山背 -->
-            <div data-aos="fade-up" class="service-card bg-warm-50/50 hover:bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col group">
+            <div data-aos="fade-up" data-aos-delay="100" class="service-card bg-warm-50/50 hover:bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col group">
                 <div class="h-44 overflow-hidden border-b border-warm-100">
                     <img id="svc-img-3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="大山背">
                 </div>
@@ -270,7 +286,7 @@
             </div>
 
             <!-- 志工 3：南方澳 -->
-            <div data-aos="fade-up" class="service-card bg-warm-50/50 hover:bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col group">
+            <div data-aos="fade-up" data-aos-delay="200" class="service-card bg-warm-50/50 hover:bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col group">
                 <div class="h-44 overflow-hidden border-b border-warm-100">
                     <img id="svc-img-4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="淨灘">
                 </div>
@@ -444,35 +460,35 @@
             <p class="text-warm-800/65 max-w-2xl mx-auto leading-relaxed border-b border-amber-100 pb-4">此刻，你的心在哪裡？選擇一個主題，讓上帝的話語成為你的亮光。</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 px-10">
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('anxiety', this)">
-                <div class="icon mb-4">🌊</div>
-                <div class="font-serif font-bold text-warm-900">焦慮</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="0" onclick="drawBlessing('anxiety', this)">
+                <div class="icon mb-4 float-anim">😟</div>
+                <div class="font-serif font-bold text-warm-900">焦慮不安</div>
                 <div class="text-xs text-warm-700/50 mt-2">尋求平安</div>
             </div>
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('tired', this)">
-                <div class="icon mb-4">🕯️</div>
-                <div class="font-serif font-bold text-warm-900">疲憊</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="100" onclick="drawBlessing('tired', this)">
+                <div class="icon mb-4 float-anim" style="animation-delay: 0.5s">疲</div>
+                <div class="font-serif font-bold text-warm-900">身心疲憊</div>
                 <div class="text-xs text-warm-700/50 mt-2">重新得力</div>
             </div>
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('lost', this)">
-                <div class="icon mb-4">🧭</div>
-                <div class="font-serif font-bold text-warm-900">迷惘</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="200" onclick="drawBlessing('lost', this)">
+                <div class="icon mb-4 float-anim" style="animation-delay: 1s">📍</div>
+                <div class="font-serif font-bold text-warm-900">迷惘方向</div>
                 <div class="text-xs text-warm-700/50 mt-2">指引方向</div>
             </div>
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('sad', this)">
-                <div class="icon mb-4">🕊️</div>
-                <div class="font-serif font-bold text-warm-900">感傷</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="300" onclick="drawBlessing('sad', this)">
+                <div class="icon mb-4 float-anim" style="animation-delay: 1.5s">💧</div>
+                <div class="font-serif font-bold text-warm-900">感傷憂愁</div>
                 <div class="text-xs text-warm-700/50 mt-2">得著安慰</div>
             </div>
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('grateful', this)">
-                <div class="icon mb-4">☀️</div>
-                <div class="font-serif font-bold text-warm-900">感恩</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="400" onclick="drawBlessing('grateful', this)">
+                <div class="icon mb-4 float-anim" style="animation-delay: 2s">🙏</div>
+                <div class="font-serif font-bold text-warm-900">充滿感恩</div>
                 <div class="text-xs text-warm-700/50 mt-2">數算恩典</div>
             </div>
-            <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('strength', this)">
-                <div class="icon mb-4">🦅</div>
+            <div class="blessing-card rounded-2xl p-8" data-aos="fade-up" data-aos-delay="500" onclick="drawBlessing('strength', this)">
+                <div class="icon mb-4 float-anim" style="animation-delay: 2.5s">🔥</div>
                 <div class="font-serif font-bold text-warm-900">渴求力量</div>
-                <div class="text-xs text-warm-700/50 mt-2">展翅上騰</div>
+                <div class="text-xs text-warm-700/50 mt-2">加添勇氣</div>
             </div>
         </div>
     </div>
@@ -587,13 +603,13 @@
                     <div class="w-3 h-3 rounded-full bg-green-500"></div>
                     <span class="ml-2 text-xs font-mono text-gray-400">user-prompt.txt — Antigravity AI</span>
                 </div>
-                <pre class="text-gray-300 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap">
+                <pre class="text-gray-300 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap">我正在申請「網路分享獎學金」，主題定為「光影與真理：數位攝影福音展」。
 請為我撰寫一份結構嚴謹、美觀的單頁式 HTML 網站原始碼。
 
 網站內容核心需求（請嚴格遵守以下真實經歷，不要虛構）：
 
 我致力於在科技與信仰的交會之處，尋見光影間的真理。
-在分享區請註明：「透過光影與服務，感測生命的存在，如同感測上帝的恩典。」
+在 AI 分享區請註明：「透過光影與服務，感測生命的存在，如同感測上帝的恩典。」
 
 僕人腳蹤（志工服務專區）：需包含以下三個我曾擔任主辦/總召的經歷：
   1. 武漢部落 - 泰雅原鄉教育：擔任總召，帶領團隊前往尖石深山，
@@ -603,7 +619,7 @@
   3. 南方澳內埤 - 淨灘活動：擔任主辦發起淨灘，正視塑膠污染問題，
      這份對環境的關懷也啟發了我對生命與信仰的深刻思考。
 
-圖片來源：我自己拍攝的照片放在 GitHub 倉庫 Bs-Huang/MyGospelGallery，PHOTO 資料夾。
+圖片來源：GitHub 倉庫 Bs-Huang/MyGospelGallery，PHOTO 資料夾。
   - 藝廊：8 張 UUID 命名照片
   - 服務：圖片1-3 武漢部落、圖片4 大山背、圖片5 淨灘
 
@@ -808,9 +824,44 @@
         document.body.style.overflow = 'auto';
     }
 
+    // ── SCROLL PROGRESS & PARALLAX ──
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("progress-bar").style.width = scrolled + "%";
+
+        const heroBg = document.getElementById('hero-bg');
+        if (heroBg) {
+            const offset = window.pageYOffset;
+            heroBg.style.setProperty('--parallax-y', offset * 0.4 + 'px');
+        }
+    });
+
+    // ── TYPING EFFECT ──
+    const text = "在科技與信仰的交會之處，尋見光影間的真理。";
+    let index = 0;
+    function type() {
+        if (index < text.length) {
+            document.getElementById("typing-text").innerHTML += text.charAt(index);
+            index++;
+            setTimeout(type, 100);
+        } else {
+            document.getElementById("typing-text").classList.remove("typing");
+        }
+    }
+    window.addEventListener('load', () => {
+        document.getElementById("typing-text").classList.add("typing");
+        setTimeout(type, 2000); // Wait for intro animations
+    });
+
+    // ── RESET TO TOP ON REFRESH ──
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+
     // ── PRELOADER FADEOUT ──
     window.addEventListener('load', () => {
         const loader = document.getElementById('preloader');
+        window.scrollTo(0, 0); // Jump to top
         setTimeout(() => {
             if (loader) loader.classList.add('hidden');
         }, 1200);
