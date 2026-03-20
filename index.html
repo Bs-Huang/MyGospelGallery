@@ -4,320 +4,656 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光影與真理：數位攝影福音展</title>
-    
-    <!-- 引入 Tailwind CSS -->
+    <meta name="description" content="透過攝影與服務，發現萬物皆是暫借。在科技與信仰的交會之處，尋見光影間的真理。網路分享獎學金申請作品。">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入高質感的 Google 字體 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind 自訂配置 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         serif: ['"Noto Serif TC"', 'serif'],
-                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        sans:  ['"Noto Sans TC"', 'sans-serif'],
                     },
                     colors: {
-                        warm: { 50: '#fdf8f6', 100: '#f2e8e5', 800: '#4a3f3c', 900: '#2d2422' }
+                        warm: { 50:'#fdf8f6', 100:'#f2e8e5', 200:'#e8d5cf', 700:'#6b4f4a', 800:'#4a3f3c', 900:'#2d2422' }
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
         .glass-nav {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(200,180,170,0.3);
         }
-        .photo-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        .modal-bg { background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); }
+        .photo-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+        .photo-card:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -8px rgba(74,63,60,0.15); }
+        .modal-bg { background-color: rgba(0,0,0,0.88); backdrop-filter: blur(6px); }
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .service-card { border-left: 4px solid #d97706; transition: border-color 0.3s, box-shadow 0.3s; }
+        .service-card:hover { border-left-color: #92400e; box-shadow: 0 8px 25px -5px rgba(74,63,60,0.12); }
+        .church-item { transition: background 0.2s, padding-left 0.2s; }
+        .church-item:hover { background: rgba(217,119,6,0.08); padding-left: 1.25rem; }
+        .svc-thumb { transition: transform 0.5s ease; }
+        .svc-thumb:hover { transform: scale(1.04); }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-t  { animation: heroFadeIn 1.3s ease both; }
+        .hero-t2 { animation: heroFadeIn 1.6s ease 0.25s both; }
     </style>
 </head>
-<body class="font-sans text-warm-800 bg-warm-50 antialiased">
+<body class="font-sans text-warm-800 bg-warm-50 antialiased selection:bg-amber-200 selection:text-amber-900">
 
-    <!-- 導覽列 -->
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <a href="#home" class="font-serif text-2xl font-semibold tracking-wider text-warm-900">光影與真理</a>
-                
-                <!-- 桌面版選單 -->
-                <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-warm-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">首頁</a>
-                    <a href="#gallery" class="text-warm-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">攝影藝廊</a>
-                    <a href="#ai-prompt" class="text-warm-800 hover:text-amber-600 px-3 py-2 text-sm font-medium">創作紀錄</a>
-                </div>
-                
-                <!-- 手機版選單按鈕 -->
-                <button id="mobile-menu-btn" class="md:hidden text-warm-800 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
+<!-- GitHub 圖片根路徑（便於維護） -->
+<script>
+    const GHRAW = 'https://raw.githubusercontent.com/Bs-Huang/MyGospelGallery/main/PHOTO/';
+    // 藝廊圖（8張）
+    const GALLERY = [
+        '0927A27B-7CFF-408D-98E4-1C7AE2A52CCC.jpg',
+        '1D49DFE8-3AEB-4216-BCDA-2224BD6A28A7.jpg',
+        '48006F55-70BC-4941-928D-C5F282065EA0.jpg',
+        '76481AA9-CE56-4A1A-9AE0-D40FA4D3F431.jpg',
+        '8C88C594-9CFB-42E7-9902-57AB4AD7A0F0.jpg',
+        '92BE310F-F3EC-4C7D-9568-71C20A0AFF62.jpg',
+        'A68140E2-36BA-4EE2-B434-C2244175CD50.jpg',
+        'EE2A23AB-C1A1-4661-A07C-A873A5F8589F.jpg',
+    ];
+    // 服務圖（5張）：圖片1-3 武漢部落、圖片4 大山背、圖片5 淨灘
+    const SVC = [
+        encodeURIComponent('圖片1.jpg'),
+        encodeURIComponent('圖片2.jpg'),
+        encodeURIComponent('圖片3.jpg'),
+        encodeURIComponent('圖片4.jpg'),
+        encodeURIComponent('圖片5.png'),
+    ];
+</script>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav class="fixed w-full z-50 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <a href="#home" class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-warm-900">光影與真理</a>
+            <div class="hidden md:flex items-center space-x-5">
+                <a href="#home"    class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">首頁</a>
+                <a href="#service" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">僕人腳蹤</a>
+                <a href="#gallery" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">光影默想</a>
+                <a href="#map"     class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">教會地圖</a>
+                <a href="#ai"      class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">創作紀錄</a>
             </div>
-        </div>
-        
-        <!-- 手機版下拉選單 -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#home" class="block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-600">首頁</a>
-                <a href="#gallery" class="block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-600">攝影藝廊</a>
-                <a href="#ai-prompt" class="block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-600">創作紀錄</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20">
-        <!-- 背景意象 -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1470240731273-7821a6eaf6ea?auto=format&fit=crop&q=80&w=2000" alt="背景" class="w-full h-full object-cover opacity-[0.15]">
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-warm-50"></div>
-        </div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto px-4 justify-center text-center">
-            <span class="text-amber-700 font-medium tracking-widest text-sm sm:text-base uppercase mb-4 block">網路分享獎學金申請</span>
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-warm-900 mb-6 leading-tight">
-                光影與真理 <br>
-                <span class="text-3xl md:text-5xl text-warm-800 font-light mt-4 block">數位攝影福音展</span>
-            </h1>
-            <p class="mt-6 text-lg tracking-wide text-warm-800/80 leading-relaxed max-w-2xl mx-auto">
-                「透過鏡頭捕捉上帝創造的美好，以影像傳遞溫暖的光芒。」<br>
-                致力於用數位攝影貢獻創新，將信仰的真理融入日常的光影之中。
-            </p>
-            <a href="#gallery" class="mt-8 inline-block px-8 py-3 rounded-full text-white bg-warm-900 hover:bg-amber-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                進入藝廊
-            </a>
-        </div>
-    </section>
-
-    <!-- 攝影藝廊 -->
-    <section id="gallery" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mb-4">影像與話語</h2>
-                <div class="w-24 h-1 bg-amber-200 mx-auto rounded-full"></div>
-                <p class="mt-4 text-warm-800/70 max-w-2xl mx-auto">每一幀定格的瞬間，都是神恩典的印記。點擊照片即可放大欣賞細節。</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- 相片 1 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/e2e8f0/475569?text=Photo+1')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/e2e8f0/475569?text=Photo+1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            耶和華是我的牧者，我必不致缺乏。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 詩篇 23:1</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 相片 2 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/f1f5f9/475569?text=Photo+2')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/f1f5f9/475569?text=Photo+2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            我是世界的光。跟從我的，就不在黑暗裡走，必要得著生命的光。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 約翰福音 8:12</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 相片 3 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/cbd5e1/475569?text=Photo+3')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/cbd5e1/475569?text=Photo+3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            神說：「要有光」，就有了光。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 創世記 1:3</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 相片 4 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/f8fafc/475569?text=Photo+4')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/f8fafc/475569?text=Photo+4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            你的話是我腳前的燈，是我路上的光。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 詩篇 119:105</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 相片 5 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/e2e8f0/475569?text=Photo+5')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/e2e8f0/475569?text=Photo+5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            你們的光也當這樣照在人前，叫他們看見你們的好行為，便將榮耀歸給你們在天上的父。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 馬太福音 5:16</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 相片 6 -->
-                <div class="photo-card bg-warm-50 rounded-xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group" onclick="openModal('https://via.placeholder.com/1200x900/f1f5f9/475569?text=Photo+6')">
-                    <div class="relative aspect-[4/3] overflow-hidden">
-                        <img src="https://via.placeholder.com/600x450/f1f5f9/475569?text=Photo+6" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="攝影作品">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                            <span class="opacity-0 group-hover:opacity-100 text-white font-medium flex items-center">🔍 放大檢視</span>
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <p class="font-serif text-lg text-warm-900 leading-relaxed relative">
-                            <span class="text-4xl text-amber-200 absolute -top-4 -left-2 font-serif">"</span>
-                            但義人的路好像黎明的光，越照越明，直到日午。<br>
-                            <span class="text-sm text-warm-800/60 mt-2 block font-sans">— 箴言 4:18</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI 創作紀錄區 -->
-    <section id="ai-prompt" class="py-24 bg-[#EBE3DF]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/3">
-                    <h2 class="text-3xl font-serif font-bold text-warm-900 mb-4">AI 工具與<br>Prompt 分享</h2>
-                    <div class="w-16 h-1 bg-amber-400 rounded-full mb-6"></div>
-                    <p class="text-warm-800/80 leading-relaxed font-light">
-                        本網站由 <strong class="text-amber-700 font-medium">Antigravity AI</strong> 輔助開發。透過精確的 Prompt 溝通，成功將理念轉化為結構嚴謹、具備響應式設計且美觀的單頁互動式網站。
-                    </p>
-                </div>
-                <!-- 程式碼展示框 -->
-                <div class="md:w-2/3 w-full">
-                    <div class="bg-[#1e1e1e] rounded-xl shadow-2xl p-6 relative">
-                        <div class="flex gap-2 mb-4 items-center">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span class="ml-2 text-xs font-mono text-gray-400">user-prompt.txt</span>
-                        </div>
-                        <div class="text-gray-300 font-mono text-[13px] sm:text-[14px] leading-relaxed whitespace-pre-wrap">我正在申請「網路分享獎學金」，主題是透過數位攝影傳揚福音。請為我撰寫一個結構嚴謹、具備邏輯且美觀的單頁式 HTML 網站。
-
-網站需求：
-*   框架：使用 Tailwind CSS CDN 進行響應式設計，確保手機與電腦都能正常閱讀。
-*   內容區塊：
-    *   Hero Section：標題為「光影與真理：數位攝影福音展」，副標題強調用攝影貢獻創新與美好。
-    *   攝影藝廊：請預留 6 個相片卡片位置（使用 https://via.placeholder.com 作為佔位圖）。每張照片下方需配上一段溫暖的聖經金句（如：詩篇 23:1 或 約翰福音 8:12）。
-    *   AI 創作紀錄區：這是一個獨立區塊，標題為「AI 工具與 Prompt 分享」，內容需列出本網站是使用 Antigravity 輔助開發，並將本 Prompt 內容展示出來。
-*   互動效果：加入 JavaScript 實現點擊照片放大（Modal）的效果，以及導覽列的平滑滾動。
-*   程式規範：請提供完整且詳細的程式碼，不要省略任何段落，確保我複製後能直接在 index.html 運行。</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 頁尾 -->
-    <footer class="bg-warm-900 text-warm-50 py-12 text-center">
-        <div class="max-w-7xl mx-auto px-4">
-            <a href="#home" class="font-serif text-2xl font-semibold mb-4 block">光影與真理</a>
-            <p class="text-warm-100/50 text-sm">數位攝影福音展 &copy; 2026 網路分享獎學金申請作品</p>
-        </div>
-    </footer>
-
-    <!-- 相片放大 Modal -->
-    <div id="image-modal" class="fixed inset-0 z-[100] hidden items-center justify-center modal-bg opacity-0 transition-opacity duration-300">
-        <button onclick="closeModal()" class="absolute top-6 right-6 text-white/70 hover:text-white p-2">
-            <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <div class="relative w-full max-w-5xl mx-4 max-h-[90vh] flex items-center justify-center" onclick="event.stopPropagation()">
-            <img id="modal-img" src="" alt="放大檢視" class="max-h-[85vh] max-w-full object-contain rounded shadow-2xl transform scale-95 transition-transform duration-300">
+            <button id="mobile-menu-btn" class="md:hidden text-warm-800 focus:outline-none p-1">
+                <svg id="icon-open"  class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="icon-close" class="h-7 w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
     </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white/95 shadow-lg absolute w-full">
+        <div class="px-4 pt-2 pb-4 space-y-1">
+            <a href="#home"    class="mobile-link block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-700 rounded">首頁</a>
+            <a href="#service" class="mobile-link block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-700 rounded">僕人腳蹤</a>
+            <a href="#gallery" class="mobile-link block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-700 rounded">光影默想</a>
+            <a href="#map"     class="mobile-link block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-700 rounded">教會地圖</a>
+            <a href="#ai"      class="mobile-link block px-3 py-2 text-base font-medium text-warm-800 hover:text-amber-700 rounded">創作紀錄</a>
+        </div>
+    </div>
+</nav>
 
-    <!-- JavaScript 邏輯 -->
-    <script>
-        // Modal 邏輯
-        const modal = document.getElementById('image-modal');
-        const modalImg = document.getElementById('modal-img');
+<!-- ═══════════ HERO ═══════════ -->
+<section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1470240731273-7821a6eaf6ea?auto=format&fit=crop&q=80&w=2000"
+             alt="背景光影" class="w-full h-full object-cover opacity-[0.12]">
+        <div class="absolute inset-0 bg-gradient-to-b from-warm-50/10 via-transparent to-warm-50"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+        <span class="hero-t inline-block text-amber-700 font-medium tracking-widest text-xs sm:text-sm uppercase mb-5 border border-amber-300 rounded-full px-4 py-1">
+            網路分享獎學金申請 · 2026
+        </span>
+        <h1 class="hero-t font-serif text-5xl sm:text-6xl md:text-8xl font-bold text-warm-900 leading-tight mb-3">光影與真理</h1>
+        <p class="hero-t font-serif text-xl sm:text-2xl md:text-3xl text-warm-700 font-light mb-6">數位攝影福音展</p>
+        <div class="hero-t2 w-24 h-px bg-amber-300 mx-auto mb-6"></div>
+        <p class="hero-t2 text-base sm:text-lg text-warm-800/75 leading-relaxed max-w-2xl mx-auto mb-4">
+            「用鏡頭捕捉上帝創造的美好，用影像記錄公益的足跡。」<br>
+            每一幀光影，都是祂恩典的印記；每一次快門，都是對這世界溫柔的凝視。
+        </p>
+        <p class="hero-t2 text-sm sm:text-base text-warm-700/70 leading-relaxed max-w-2xl mx-auto mb-10">
+            透過攝影，我學會了凝視；透過服務，我學會了捨去。在一次次走入山林與海岸的旅途中，我漸漸明白——生命中所有美好，都是暫借於我們的恩典。在科技與信仰的交會之處，尋見光影間的真理。
+        </p>
+        <div class="hero-t2 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#gallery" class="inline-block px-8 py-3 rounded-full text-white bg-warm-900 hover:bg-amber-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">進入藝廊</a>
+            <a href="#service" class="inline-block px-8 py-3 rounded-full text-warm-900 bg-white border border-warm-200 hover:border-amber-400 transition-all shadow hover:shadow-md transform hover:-translate-y-1 font-medium">志工足跡</a>
+        </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <svg class="h-6 w-6 text-warm-700/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+    </div>
+</section>
 
-        function openModal(imgSrc) {
-            modalImg.src = imgSrc;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                modal.classList.add('opacity-100');
-                modalImg.classList.remove('scale-95');
-                modalImg.classList.add('scale-100');
-            });
-            document.body.style.overflow = 'hidden';
-        }
+<!-- ═══════════ 僕人腳蹤 ═══════════ -->
+<section id="service" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 fade-up">
+            <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">volunteer · service</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">僕人腳蹤</h2>
+            <div class="w-20 h-1 bg-amber-200 mx-auto rounded-full mb-4"></div>
+            <p class="text-warm-800/65 max-w-2xl mx-auto leading-relaxed">
+                「誰願意為首，就必作眾人的僕人。」（馬可福音 10:44）<br>
+                走過山林、走入聚落，以雙手與雙腳，把愛具體活出。
+            </p>
+        </div>
 
-        function closeModal() {
-            modal.classList.remove('opacity-100');
-            modal.classList.add('opacity-0');
-            modalImg.classList.remove('scale-100');
-            modalImg.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = '';
-            }, 300);
-        }
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        // 點擊背景關閉
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal || !e.target.closest('img')) {
-                closeModal();
-            }
+            <!-- 志工 1：武漢部落 泰雅原鄉（三張照片輪播縮圖） -->
+            <div class="service-card bg-warm-50 rounded-2xl overflow-hidden fade-up flex flex-col">
+                <!-- 三圖縮圖帶 -->
+                <div class="grid grid-cols-3 h-44 overflow-hidden">
+                    <div class="overflow-hidden cursor-pointer" onclick="openModal(GHRAW+SVC[0],'武漢部落·泰雅原鄉','你們要彼此相顧，激發愛心，勉勵行善。','希伯來書 10:24')">
+                        <img id="svc-img-0" class="svc-thumb w-full h-full object-cover" alt="武漢部落 1">
+                    </div>
+                    <div class="overflow-hidden cursor-pointer border-x border-white/50" onclick="openModal(GHRAW+SVC[1],'武漢部落·泰雅原鄉','你們要彼此相顧，激發愛心，勉勵行善。','希伯來書 10:24')">
+                        <img id="svc-img-1" class="svc-thumb w-full h-full object-cover" alt="武漢部落 2">
+                    </div>
+                    <div class="overflow-hidden cursor-pointer" onclick="openModal(GHRAW+SVC[2],'武漢部落·泰雅原鄉','你們要彼此相顧，激發愛心，勉勵行善。','希伯來書 10:24')">
+                        <img id="svc-img-2" class="svc-thumb w-full h-full object-cover" alt="武漢部落 3">
+                    </div>
+                </div>
+                <div class="p-7 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-11 h-11 rounded-full bg-amber-100 flex-shrink-0 flex items-center justify-center text-xl">🏔️</div>
+                        <div>
+                            <h3 class="font-serif text-base font-bold text-warm-900 leading-snug">武漢部落｜泰雅原鄉教育</h3>
+                            <p class="text-xs text-amber-700 font-semibold mt-0.5 uppercase tracking-wide">總召 · 尖石深山</p>
+                        </div>
+                    </div>
+                    <p class="text-warm-800/80 leading-relaxed text-sm mb-4 flex-grow">
+                        身為<strong class="text-warm-900">總召</strong>，主導籌備並帶領服務隊深入新竹縣尖石鄉泰雅族武漢部落。以理化科學遊戲打開孩子對知識的好奇心，透過繪畫療癒活動讓他們表達內心世界。在層層山嶺之間，我們不只是教學者，更是陪伴者——陪伴他們笑，陪伴他們哭，陪伴他們成長。
+                    </p>
+                    <p class="text-warm-800/70 text-sm italic mb-4">「陪伴是最重要的付出。不是帶去多少知識，而是留下多少溫度。」</p>
+                    <blockquote class="border-l-2 border-amber-300 pl-4 mt-auto">
+                        <p class="font-serif italic text-warm-700 text-sm">「你們要彼此相顧，激發愛心，勉勵行善。」</p>
+                        <footer class="text-xs text-warm-800/45 mt-1">— 希伯來書 10:24</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- 志工 2：大山背 客家庄 -->
+            <div class="service-card bg-warm-50 rounded-2xl overflow-hidden fade-up flex flex-col">
+                <div class="h-44 overflow-hidden cursor-pointer" onclick="openModal(GHRAW+SVC[3],'大山背·客家庄長者關懷','在白髮人面前，你要站起來，也要尊重老人的面。','利未記 19:32')">
+                    <img id="svc-img-3" class="svc-thumb w-full h-full object-cover" alt="大山背">
+                </div>
+                <div class="p-7 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-11 h-11 rounded-full bg-amber-100 flex-shrink-0 flex items-center justify-center text-xl">🌾</div>
+                        <div>
+                            <h3 class="font-serif text-base font-bold text-warm-900 leading-snug">大山背｜客家庄長者關懷</h3>
+                            <p class="text-xs text-amber-700 font-semibold mt-0.5 uppercase tracking-wide">主辦 · 橫山鄉山區</p>
+                        </div>
+                    </div>
+                    <p class="text-warm-800/80 leading-relaxed text-sm mb-4 flex-grow">
+                        身為<strong class="text-warm-900">主辦</strong>，策劃並帶隊走入新竹橫山大山背山區客家聚落，探訪獨居與務農長者。我們坐在田埂旁，耐心聆聽他們幾十年的農耕故事；也協助長者將自種農産品推廣販售，為他們創造實質的支持。在高齡的眼神裡，我學會了真正的尊重與耐心。
+                    </p>
+                    <p class="text-warm-800/70 text-sm italic mb-4">「每一位長者的皺紋裡，都刻著一段值得被聆聽的生命故事。」</p>
+                    <blockquote class="border-l-2 border-amber-300 pl-4 mt-auto">
+                        <p class="font-serif italic text-warm-700 text-sm">「在白髮人面前，你要站起來，也要尊重老人的面。」</p>
+                        <footer class="text-xs text-warm-800/45 mt-1">— 利未記 19:32</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- 志工 3：南方澳淨灘 -->
+            <div class="service-card bg-warm-50 rounded-2xl overflow-hidden fade-up flex flex-col">
+                <div class="h-44 overflow-hidden cursor-pointer" onclick="openModal(GHRAW+SVC[4],'南方澳內埤·淨灘活動','你手所當做的事要盡力去做。','傳道書 9:10')">
+                    <img id="svc-img-4" class="svc-thumb w-full h-full object-cover" alt="淨灘">
+                </div>
+                <div class="p-7 flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-11 h-11 rounded-full bg-amber-100 flex-shrink-0 flex items-center justify-center text-xl">🌊</div>
+                        <div>
+                            <h3 class="font-serif text-base font-bold text-warm-900 leading-snug">南方澳內埤｜淨灘活動</h3>
+                            <p class="text-xs text-amber-700 font-semibold mt-0.5 uppercase tracking-wide">主辦 · 宜蘭南方澳</p>
+                        </div>
+                    </div>
+                    <p class="text-warm-800/80 leading-relaxed text-sm mb-4 flex-grow">
+                        身為<strong class="text-warm-900">主辦</strong>，發起並統籌宜蘭南方澳內埤海灘淨灘活動。面對海岸線上觸目驚心的塑膠垃圾，我選擇彎腰行動而非袖手旁觀。這份對環境的深切關懷，也進一步啟發了我在電機專業上的思考——將 CSI 感測技術延伸至環境監控的創新應用之中。
+                    </p>
+                    <p class="text-warm-800/70 text-sm italic mb-4">「正視塑膠污染，不只是環保行動，更是對上帝創造的尊重與守護。」</p>
+                    <blockquote class="border-l-2 border-amber-300 pl-4 mt-auto">
+                        <p class="font-serif italic text-warm-700 text-sm">「你手所當做的事要盡力去做。」</p>
+                        <footer class="text-xs text-warm-800/45 mt-1">— 傳道書 9:10</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <!-- 統計帶 -->
+        <div class="grid grid-cols-3 gap-4 mt-12 fade-up">
+            <div class="text-center p-6 bg-amber-50 rounded-2xl">
+                <div class="font-serif text-4xl font-bold text-amber-700 mb-1">3</div>
+                <div class="text-sm text-warm-700">自主籌辦服務</div>
+            </div>
+            <div class="text-center p-6 bg-amber-50 rounded-2xl">
+                <div class="font-serif text-4xl font-bold text-amber-700 mb-1">3</div>
+                <div class="text-sm text-warm-700">服務場域跨縣市</div>
+            </div>
+            <div class="text-center p-6 bg-amber-50 rounded-2xl">
+                <div class="font-serif text-4xl font-bold text-amber-700 mb-1">∞</div>
+                <div class="text-sm text-warm-700">每次服務帶走的感動</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ 光影默想 藝廊（8張）═══════════ -->
+<section id="gallery" class="py-24 bg-warm-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 fade-up">
+            <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">gallery · meditation</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">光影默想</h2>
+            <div class="w-20 h-1 bg-amber-200 mx-auto rounded-full mb-4"></div>
+            <p class="text-warm-800/65 max-w-2xl mx-auto leading-relaxed">
+                每一個快門，都是一次祈禱。<br>點擊照片放大，讓光影帶你進入默想。
+            </p>
+        </div>
+
+        <!-- 上方 4 張 + 下方 4 張 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+
+            <!-- 相片 1 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[0],'牧羊人的呼喚','耶和華是我的牧者，我必不致缺乏。','詩篇 23:1')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g0" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 1">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">牧羊人的呼喚</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「耶和華是我的牧者，我必不致缺乏。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 詩篇 23:1</p>
+                </div>
+            </div>
+
+            <!-- 相片 2 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[1],'世界的光','我是世界的光。跟從我的，就不在黑暗裡走。','約翰福音 8:12')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 2">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">世界的光</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「我是世界的光。跟從我的，就不在黑暗裡走。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 約翰福音 8:12</p>
+                </div>
+            </div>
+
+            <!-- 相片 3 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[2],'創世的第一天','神說：要有光，就有了光。','創世記 1:3')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 3">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">創世的第一天</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「神說：『要有光』，就有了光。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 創世記 1:3</p>
+                </div>
+            </div>
+
+            <!-- 相片 4 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[3],'腳前的燈','你的話是我腳前的燈，是我路上的光。','詩篇 119:105')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 4">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">腳前的燈</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「你的話是我腳前的燈，是我路上的光。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 詩篇 119:105</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- 相片 5 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[4],'照在人前的光','你們的光也當這樣照在人前，叫他們看見你們的好行為。','馬太福音 5:16')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 5">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">照在人前的光</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「你們的光也當這樣照在人前，叫他們看見你們的好行為。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 馬太福音 5:16</p>
+                </div>
+            </div>
+
+            <!-- 相片 6 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[5],'越照越明','但義人的路好像黎明的光，越照越明，直到日午。','箴言 4:18')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 6">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">越照越明</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「但義人的路好像黎明的光，越照越明，直到日午。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 箴言 4:18</p>
+                </div>
+            </div>
+
+            <!-- 相片 7 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[6],'萬物都倚靠祂','萬有都是靠他造的；凡被造的，沒有一樣不是藉著他造的。','約翰福音 1:3')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g6" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 7">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">萬物都倚靠祂</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「凡被造的，沒有一樣不是藉著他造的。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 約翰福音 1:3</p>
+                </div>
+            </div>
+
+            <!-- 相片 8 -->
+            <div class="photo-card bg-white rounded-2xl overflow-hidden shadow-sm border border-warm-100 cursor-pointer group fade-up"
+                 onclick="openModal(GHRAW+GALLERY[7],'安靜在祂面前','你只要默然倚靠耶和華，耐性等候他。','詩篇 37:7')">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img id="g7" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="相片 8">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 text-white font-medium transition-opacity">🔍 放大</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-serif font-semibold text-warm-900 text-sm mb-1">安靜在祂面前</h4>
+                    <p class="font-serif text-xs italic text-warm-700 leading-relaxed">「你只要默然倚靠耶和華，耐性等候他。」</p>
+                    <p class="text-xs text-warm-800/40 mt-1">— 詩篇 37:7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ 尋找心靈的家 ═══════════ -->
+<section id="map" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14 fade-up">
+            <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">find a church · hsinchu</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">尋找心靈的家</h2>
+            <div class="w-20 h-1 bg-amber-200 mx-auto rounded-full mb-4"></div>
+            <p class="text-warm-800/65 max-w-2xl mx-auto leading-relaxed">
+                「不可停止聚會，好像那些停止慣了的人，倒要彼此勸勉。」（希伯來書 10:25）<br>
+                在新竹，有許多溫暖的教會等候著你，歡迎你走進去，嘗嘗那份愛的滋味。
+            </p>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-8 fade-up">
+            <div class="lg:w-1/3 w-full">
+                <h3 class="font-serif text-xl font-bold text-warm-900 mb-5 flex items-center gap-2">
+                    <span class="text-amber-600">✦</span> 新竹教會清單
+                </h3>
+                <ul class="space-y-3">
+                    <li class="church-item rounded-xl p-4 border border-warm-100 transition-all">
+                        <div class="font-semibold text-warm-900">新竹勝利堂</div>
+                        <div class="text-sm text-warm-700/70 mt-0.5">📍 新竹市東區民族路 143 號</div>
+                        <div class="text-sm text-amber-700 mt-1 font-medium">每週日 10:00 主日崇拜</div>
+                    </li>
+                    <li class="church-item rounded-xl p-4 border border-warm-100 transition-all">
+                        <div class="font-semibold text-warm-900">新竹浸信會</div>
+                        <div class="text-sm text-warm-700/70 mt-0.5">📍 新竹市北區光華街 168 號</div>
+                        <div class="text-sm text-amber-700 mt-1 font-medium">每週日 09:30 主日崇拜</div>
+                    </li>
+                    <li class="church-item rounded-xl p-4 border border-warm-100 transition-all">
+                        <div class="font-semibold text-warm-900">新竹真理堂</div>
+                        <div class="text-sm text-warm-700/70 mt-0.5">📍 新竹市東區東大路一段 376 號</div>
+                        <div class="text-sm text-amber-700 mt-1 font-medium">每週日 08:30 / 10:30</div>
+                    </li>
+                    <li class="church-item rounded-xl p-4 border border-warm-100 transition-all">
+                        <div class="font-semibold text-warm-900">新竹長老教會</div>
+                        <div class="text-sm text-warm-700/70 mt-0.5">📍 新竹市北區北大路 220 號</div>
+                        <div class="text-sm text-amber-700 mt-1 font-medium">每週日 10:30 主日禮拜</div>
+                    </li>
+                    <li class="church-item rounded-xl p-4 border border-warm-100 transition-all">
+                        <div class="font-semibold text-warm-900">交大信望愛社</div>
+                        <div class="text-sm text-warm-700/70 mt-0.5">📍 國立陽明交通大學 光復校區</div>
+                        <div class="text-sm text-amber-700 mt-1 font-medium">聚會時間請洽社群公告</div>
+                    </li>
+                </ul>
+                <p class="text-xs text-warm-800/35 mt-4 leading-relaxed">※ 資料僅供參考，詳細時間請洽各教會官方網站。</p>
+            </div>
+            <div class="lg:w-2/3 w-full rounded-2xl overflow-hidden shadow-lg border border-warm-100">
+                <iframe title="新竹市教會地圖"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57953.67847628408!2d120.9716!3d24.8016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346840e35b7c3a97%3A0x8a5d1b43f9ca98fc!2z5paw56OB5biC!5e0!3m2!1szh-TW!2stw!4v1700000000000"
+                    width="100%" height="460" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ AI 創作紀錄 ═══════════ -->
+<section id="ai" class="py-24 bg-[#EBE3DF]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14 fade-up">
+            <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">AI · making of</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">AI 工具與 Prompt 分享</h2>
+            <div class="w-20 h-1 bg-amber-400 mx-auto rounded-full"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 fade-up">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-warm-100">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-xl">✨</div>
+                    <div>
+                        <div class="font-bold text-warm-900">創作理念</div>
+                        <div class="text-sm text-amber-700">攝影 · 服務 · 信仰</div>
+                    </div>
+                </div>
+                <p class="text-warm-800/85 leading-loose text-sm sm:text-base mb-4">
+                    透過攝影與服務，我逐漸發現一件事：我們所擁有的一切——才能、時間、美麗的風景、孩子的笑臉——都不真正屬於我們，而是上帝暫時借給我們保管的禮物。
+                </p>
+                <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4">
+                    <p class="font-serif italic text-warm-800 leading-relaxed text-sm">
+                        「萬物皆借，唯愛永存。在科技與信仰的交會之處，尋見光影間的真理——攝影是我感測上帝恩典的方式；服務，是我將這份感動回饋世界的行動。」
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-warm-100">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-xl">🤖</div>
+                    <div>
+                        <div class="font-bold text-warm-900">輔助開發工具</div>
+                        <div class="text-sm text-amber-700">Antigravity AI · Google DeepMind</div>
+                    </div>
+                </div>
+                <p class="text-warm-800/85 leading-loose text-sm mb-4">
+                    本網站由 <strong class="text-amber-700">Antigravity</strong>（由 Google DeepMind 設計的 AI 程式助理）輔助架設，透過 AI 協作將信仰、故事與設計整合為一頁完整網站。
+                </p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-2 text-warm-700"><span class="text-green-500">✓</span> Tailwind CSS 響應式設計</div>
+                    <div class="flex items-center gap-2 text-warm-700"><span class="text-green-500">✓</span> JavaScript Modal 互動效果</div>
+                    <div class="flex items-center gap-2 text-warm-700"><span class="text-green-500">✓</span> Google Maps 嵌入整合</div>
+                    <div class="flex items-center gap-2 text-warm-700"><span class="text-green-500">✓</span> GitHub 圖片串接</div>
+                </div>
+            </div>
+        </div>
+        <div class="fade-up">
+            <div class="bg-[#1e1e1e] rounded-2xl shadow-2xl p-6">
+                <div class="flex gap-2 mb-4 items-center border-b border-white/10 pb-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="ml-2 text-xs font-mono text-gray-400">user-prompt.txt — Antigravity AI</span>
+                </div>
+                <pre class="text-gray-300 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap">我正在申請「網路分享獎學金」，主題定為「光影與真理：數位攝影福音展」。
+請為我撰寫一份結構嚴謹、美觀的單頁式 HTML 網站原始碼。
+
+網站內容核心需求（請嚴格遵守以下真實經歷，不要虛構）：
+
+技術背景：我目前是 NYCU 電機所碩士生，研究 CSI Sensing 演算法。
+在 AI 分享區請註明：「透過 CSI 演算法感測生命的存在，如同透過影像感測上帝的恩典。」
+
+僕人腳蹤（志工服務專區）：需包含以下三個我曾擔任主辦/總召的經歷：
+  1. 武漢部落 - 泰雅原鄉教育：擔任總召，帶領團隊前往尖石深山，
+     透過理化遊戲與繪畫陪伴孩童。強調：「陪伴是最重要的付出」。
+  2. 大山背 - 客家庄長者關懷：擔任主辦，走入山區陪伴務農長者，
+     聆聽他們的故事並協助農產販售，學會尊重與耐心。
+  3. 南方澳內埤 - 淨灘活動：擔任主辦發起淨灘，正視塑膠污染問題，
+     這份對環境的關懷也啟發了我電機專業的創新應用。
+
+圖片來源：GitHub 倉庫 Bs-Huang/MyGospelGallery，PHOTO 資料夾。
+  - 藝廊：8 張 UUID 命名照片
+  - 服務：圖片1-3 武漢部落、圖片4 大山背、圖片5 淨灘
+
+攝影藝廊：8 張照片，每張配福音小故事與聖經金句，點擊可放大。
+
+尋找心靈的家：嵌入新竹 Google Map，側邊列出新竹主要教會清單。
+
+程式要求：Tailwind CSS、Noto Serif TC 字體、Modal 放大、平滑滾動。</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="bg-warm-900 text-warm-50 py-14">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <a href="#home" class="font-serif text-3xl font-bold tracking-wider mb-3 block hover:text-amber-300 transition-colors">光影與真理</a>
+        <p class="text-warm-100/50 text-sm mb-6 max-w-md mx-auto leading-relaxed">
+            數位攝影福音展 · 網路分享獎學金申請作品<br>
+            萬物皆借，唯愛永存 &copy; 2026
+        </p>
+        <div class="flex justify-center flex-wrap gap-5 text-xs text-warm-100/30">
+            <a href="#home"    class="hover:text-warm-100/70 transition-colors">首頁</a>
+            <a href="#service" class="hover:text-warm-100/70 transition-colors">僕人腳蹤</a>
+            <a href="#gallery" class="hover:text-warm-100/70 transition-colors">光影默想</a>
+            <a href="#map"     class="hover:text-warm-100/70 transition-colors">教會地圖</a>
+            <a href="#ai"      class="hover:text-warm-100/70 transition-colors">創作紀錄</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════ MODAL ═══════════ -->
+<div id="image-modal"
+     class="fixed inset-0 z-[100] hidden items-center justify-center modal-bg opacity-0 transition-opacity duration-300 p-4">
+    <button onclick="closeModal()" class="absolute top-5 right-5 text-white/60 hover:text-white transition-colors p-2 z-10">
+        <svg class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    </button>
+    <div class="flex flex-col items-center w-full max-w-4xl mx-auto" onclick="event.stopPropagation()">
+        <img id="modal-img" src="" alt="放大檢視"
+             class="max-h-[65vh] max-w-full object-contain rounded-xl shadow-2xl transform scale-95 transition-transform duration-300">
+        <div class="mt-5 text-center px-4">
+            <h3 id="modal-title" class="font-serif text-xl font-semibold text-white mb-2"></h3>
+            <p id="modal-verse" class="font-serif italic text-white/80 text-sm mb-1"></p>
+            <p id="modal-ref"   class="text-white/50 text-xs"></p>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+    // ── 批次寫入圖片 src（避免 HTML 中長 URL）────────────────
+    window.addEventListener('DOMContentLoaded', () => {
+        // 藝廊
+        GALLERY.forEach((fn, i) => {
+            const el = document.getElementById('g' + i);
+            if (el) el.src = GHRAW + fn;
         });
-
-        // 鍵盤 Esc 關閉
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        // 服務圖
+        SVC.forEach((fn, i) => {
+            const el = document.getElementById('svc-img-' + i);
+            if (el) el.src = GHRAW + fn;
         });
+    });
 
-        // 手機版選單切換
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    // ── Modal ──────────────────────────────────────────────────
+    const modal    = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalTtl = document.getElementById('modal-title');
+    const modalVrs = document.getElementById('modal-verse');
+    const modalRef = document.getElementById('modal-ref');
+
+    function openModal(src, title, verse, ref) {
+        modalImg.src         = src;
+        modalTtl.textContent = title || '';
+        modalVrs.textContent = verse ? '「' + verse + '」' : '';
+        modalRef.textContent = ref   ? '— ' + ref : '';
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        requestAnimationFrame(() => {
+            modal.classList.replace('opacity-0', 'opacity-100');
+            modalImg.classList.replace('scale-95', 'scale-100');
         });
-    </script>
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.replace('opacity-100', 'opacity-0');
+        modalImg.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => {
+            modal.classList.replace('flex', 'hidden');
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+    });
+
+    // ── 手機選單 ───────────────────────────────────────────────
+    const mobileBtn  = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('icon-open');
+    const iconClose  = document.getElementById('icon-close');
+
+    mobileBtn.addEventListener('click', () => {
+        const hide = mobileMenu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden', !hide);
+        iconClose.classList.toggle('hidden', hide);
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+    }));
+
+    // ── 滾動進場動畫 ───────────────────────────────────────────
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
