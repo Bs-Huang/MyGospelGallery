@@ -135,7 +135,7 @@
 
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="fixed w-full z-50 glass-nav">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">
             <a href="#home" class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-warm-900">光影與真理</a>
             <div class="hidden md:flex items-center space-x-5">
@@ -194,7 +194,7 @@
 </section>
 
 <!-- ═══════════ 僕人腳蹤 ═══════════ -->
-<section id="service" class="py-32 bg-white">
+<section id="service" class="py-24 bg-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up" class="text-center mb-16">
             <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">volunteer · service</span>
@@ -311,7 +311,7 @@
 
 <!-- ═══════════ 光影默想 藝廊 ═══════════ -->
 <section id="gallery" class="py-32 bg-warm-50">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up" class="text-center mb-16">
             <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">gallery &middot; meditation</span>
             <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">光影默想</h2>
@@ -362,7 +362,7 @@
 </section>
 
 <!-- ═══════════ 光影長篇故事 ═══════════ -->
-<section id="stories" class="py-32 bg-warm-900">
+<section id="stories" class="py-24 bg-warm-900">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up" class="text-center mb-16">
             <span class="text-amber-400 text-sm font-medium tracking-widest uppercase">gospel stories</span>
@@ -419,15 +419,15 @@
 </section>
 
 <!-- ═══════════ 心靈光影 抽籤 ═══════════ -->
-<section id="blessing" class="py-32 bg-warm-50/30">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<section id="blessing" class="py-24 bg-warm-50/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div data-aos="fade-up" class="mb-16">
             <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">soul light · blessing</span>
             <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">心靈光影：恩典抽籤</h2>
             <div class="w-20 h-1 bg-amber-200 mx-auto rounded-full mb-4"></div>
             <p class="text-warm-800/65 max-w-2xl mx-auto leading-relaxed border-b border-amber-100 pb-4">此刻，你的心在哪裡？選擇一個主題，讓上帝的話語成為你的亮光。</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 px-10">
             <div class="blessing-card rounded-2xl p-8" onclick="drawBlessing('anxiety', this)">
                 <div class="icon mb-4">🌊</div>
                 <div class="font-serif font-bold text-warm-900">焦慮</div>
@@ -463,8 +463,8 @@
 </section>
 
 <!-- ═══════════ 尋找心靈的家 ═══════════ -->
-<section id="map" class="py-32 bg-white">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+<section id="map" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up" class="text-center mb-14">
             <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">find a church · hsinchu</span>
             <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">尋找心靈的家</h2>
@@ -474,54 +474,44 @@
                 在新竹，有許多溫暖的教會等候著你，歡迎你走進去，嘗嘗那份愛的滋味。
             </p>
         </div>
-        <div data-aos="fade-up" class="flex flex-col lg:flex-row gap-16">
-            <div class="lg:w-[35%] w-full">
+        <div data-aos="fade-up" class="flex flex-col lg:flex-row gap-12">
+            <div class="lg:w-1/2 w-full">
                 <h3 class="font-serif text-xl font-bold text-warm-900 mb-8 flex items-center gap-2">
                     <span class="text-amber-600">✦</span> 新竹教會清單
                 </h3>
-                <ul id="church-list" class="space-y-4">
-                    <li class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm" onclick="updateMap(0)">
+                <div id="church-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm hover:bg-amber-50/50 transition-all font-sans" onclick="updateMap(0)">
                         <div class="font-bold text-warm-900 text-lg mb-2">新竹勝利堂</div>
-                        <div class="space-y-1">
-                            <div class="text-sm text-warm-700/80 flex items-center gap-2">📍 <span class="text-gray-500">新竹市東區民族路 143 號</span></div>
-                            <div class="text-sm text-amber-700 font-medium flex items-center gap-2">⏰ 每週日 10:00 主日崇拜</div>
-                        </div>
-                    </li>
-                    <li class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm" onclick="updateMap(1)">
+                        <div class="text-xs text-warm-700/80 mb-1">📍 <span class="text-gray-500">新竹市東區民族路 143 號</span></div>
+                        <div class="text-xs text-amber-700 font-medium">⏰ 每週日 10:00 主日崇拜</div>
+                    </div>
+                    <div class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm hover:bg-amber-50/50 transition-all font-sans" onclick="updateMap(1)">
                         <div class="font-bold text-warm-900 text-lg mb-2">新竹浸信會</div>
-                        <div class="space-y-1">
-                            <div class="text-sm text-warm-700/80 flex items-center gap-2">📍 <span class="text-gray-500">新竹市北區光華一街 168 號</span></div>
-                            <div class="text-sm text-amber-700 font-medium flex items-center gap-2">⏰ 每週日 09:30 主日崇拜</div>
-                        </div>
-                    </li>
-                    <li class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm" onclick="updateMap(2)">
+                        <div class="text-xs text-warm-700/80 mb-1">📍 <span class="text-gray-500">新竹市北區光華一街 168 號</span></div>
+                        <div class="text-xs text-amber-700 font-medium">⏰ 每週日 09:30 主日崇拜</div>
+                    </div>
+                    <div class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm hover:bg-amber-50/50 transition-all font-sans" onclick="updateMap(2)">
                         <div class="font-bold text-warm-900 text-lg mb-2">新竹真理堂</div>
-                        <div class="space-y-1">
-                            <div class="text-sm text-warm-700/80 flex items-center gap-2">📍 <span class="text-gray-500">新竹市東區東大路一段 376 號</span></div>
-                            <div class="text-sm text-amber-700 font-medium flex items-center gap-2">⏰ 每週日 08:30 / 10:30 主日崇拜</div>
-                        </div>
-                    </li>
-                    <li class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm" onclick="updateMap(3)">
+                        <div class="text-xs text-warm-700/80 mb-1">📍 <span class="text-gray-500">新竹市東區東大路一段 376 號</span></div>
+                        <div class="text-xs text-amber-700 font-medium">⏰ 每週日 08:30 / 10:30</div>
+                    </div>
+                    <div class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm hover:bg-amber-50/50 transition-all font-sans" onclick="updateMap(3)">
                         <div class="font-bold text-warm-900 text-lg mb-2">新竹長老教會</div>
-                        <div class="space-y-1">
-                            <div class="text-sm text-warm-700/80 flex items-center gap-2">📍 <span class="text-gray-500">新竹市北區北美路 220 號</span></div>
-                            <div class="text-sm text-amber-700 font-medium flex items-center gap-2">⏰ 每週日 10:30 主日禮拜</div>
-                        </div>
-                    </li>
-                    <li class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm" onclick="updateMap(4)">
+                        <div class="text-xs text-warm-700/80 mb-1">📍 <span class="text-gray-500">新竹市北區北美路 220 號</span></div>
+                        <div class="text-xs text-amber-700 font-medium">⏰ 每週日 10:30 主日禮拜</div>
+                    </div>
+                    <div class="church-item rounded-xl p-5 border border-warm-100 cursor-pointer bg-white shadow-sm hover:bg-amber-50/50 transition-all font-sans" onclick="updateMap(4)">
                         <div class="font-bold text-warm-900 text-lg mb-2">交大信望愛社</div>
-                        <div class="space-y-1">
-                            <div class="text-sm text-warm-700/80 flex items-center gap-2">📍 <span class="text-gray-500">國立陽明交通大學 光復校區</span></div>
-                            <div class="text-sm text-amber-700 font-medium">聚會時間請洽社群公告</div>
-                        </div>
-                    </li>
-                </ul>
+                        <div class="text-xs text-warm-700/80 mb-1">📍 <span class="text-gray-500">陽明交大 光復校區</span></div>
+                        <div class="text-xs text-amber-700 font-medium">聚會時間請洽社群公告</div>
+                    </div>
+                </div>
                 <p class="text-xs text-warm-800/35 mt-6 leading-relaxed">※ 點擊教會名稱可更新地圖位置。</p>
             </div>
-            <div class="lg:w-[65%] w-full rounded-2xl overflow-hidden shadow-lg border border-warm-100">
+            <div class="lg:w-1/2 w-full rounded-2xl overflow-hidden shadow-lg border border-warm-100 aspect-square">
                 <iframe id="church-map" title="新竹市教會地圖"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.890636829141!2d120.9754!3d24.8047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346835de3452243d%3A0xe744e45d4474779!2z5paw56OB5Yud5Yip5aCC!5e0!3m2!1szh-TW!2stw!4v1700000000000"
-                    width="100%" height="600" style="border:0;" allowfullscreen loading="lazy">
+                    width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy">
                 </iframe>
             </div>
         </div>
@@ -530,7 +520,7 @@
 
 <!-- ═══════════ AI 創作紀錄 ═══════════ -->
 <section id="ai" class="py-32 bg-warm-50/50">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up" class="text-center mb-14">
             <span class="text-amber-700 text-sm font-medium tracking-widest uppercase">AI · making of</span>
             <h2 class="text-3xl md:text-4xl font-serif font-bold text-warm-900 mt-2 mb-4">AI 工具與 Prompt 分享</h2>
@@ -691,19 +681,38 @@
     });
     // ── BLESSING GAME LOGIC ──
     const BLESSINGS = {
-        anxiety: { title: '平安在此', verse: '「不要為明天憂慮，因為明天自有明天的憂慮。」', ref: '馬太福音 6:34', word: '深呼吸，將你的重擔交給祂。此刻的焦慮只是雲霧，上帝的愛卻是恆久不變的大地。' },
-        tired: { title: '重新得力', verse: '「凡勞苦擔重擔的人可以到我這裡來，我就使你們得安息。」', ref: '馬太福音 11:28', word: '累了，就安歇在祂懷裡吧。休息不是軟弱，而是為了在祂的愛中重新裝滿勇氣。' },
-        lost: { title: '光在前方', verse: '「你的話是我腳前的燈，是我路上的光。」', ref: '詩篇 119:105', word: '看不清遠方時，就先看清腳下的第一步。每一盞燈光，都是祂指引你回家的信號。' },
-        sad: { title: '溫柔撫慰', verse: '「祂醫好傷心的人，裹好他們的傷處。」', ref: '詩篇 147:3', word: '你的眼淚祂都看見，也必收集。祂的愛比傷疤更深，會在安靜中溫柔地修復你的心。' },
-        grateful: { title: '恩典滿溢', verse: '「要常常喜樂，不住地禱告，凡事謝恩。」', ref: '帖撒羅尼迦前書 5:16-18', word: '感恩是開啟天堂之門的鑰匙。當你數算恩典時，你會發現祂的慈愛比早晨的陽光更清新。' },
-        strength: { title: '展翅如鷹', verse: '「但那等候耶和華的，必重新得力。他們必如鷹展翅上騰。」', ref: '以賽亞書 40:31', word: '等候不是停滯，而是儲備力量。當風暴來臨時，祂的愛會成為載著你飛越的高山。' }
+        anxiety: [
+            { title: '平安在此', verse: '「不要為明天憂慮，因為明天自有明天的憂慮。」', ref: '馬太福音 6:34', word: '深呼吸，將你的重擔交給祂。此刻的焦慮只是雲霧，上帝的愛卻是恆久不變的大地。' },
+            { title: '平靜風浪', verse: '「你不要害怕，因為我與你同在；不要驚惶，因為我是你的神。」', ref: '以賽亞書 41:10', word: '即便身處風暴，祂的雙手始終緊握著你。放下心中的喧囂，聽聽祂溫柔的安慰。' }
+        ],
+        tired: [
+            { title: '重新得力', verse: '「凡勞苦擔重擔的人可以到我這裡來，我就使你們得安息。」', ref: '馬太福音 11:28', word: '累了，就安歇在祂懷裡吧。休息不是軟弱，而是為了在祂的愛中重新裝滿勇氣。' },
+            { title: '生命的泉源', verse: '「但那等候耶和華的，必重新得力。他們必如鷹展翅上騰。」', ref: '以賽亞書 40:31', word: '在乾渴的道路上，祂是你的清泉。稍微停下腳步，讓恩典再次充滿你的心。' }
+        ],
+        lost: [
+            { title: '光在前方', verse: '「你的話是我腳前的燈，是我路上的光。」', ref: '詩篇 119:105', word: '看不清遠方時，就先看清腳下的第一步。每一盞燈光，都是祂指引你回家的信號。' },
+            { title: '隨時的指引', verse: '「你或向左或向右，你必聽見後邊有聲音說：這是正路，要行在其間。」', ref: '以賽亞書 30:21', word: '迷路並不代表失敗，而是新的開始。靜下心來，聖靈的微聲始終在你的心裡指路。' }
+        ],
+        sad: [
+            { title: '溫柔撫慰', verse: '「祂醫好傷心的人，裹好他們的傷處。」', ref: '詩篇 147:3', word: '你的眼淚祂都看見，也必收集。祂的愛比傷疤更深，會在安靜中溫柔地修復你的心。' },
+            { title: '雨後的彩虹', verse: '「一宿雖有哭泣，早晨便必歡呼。」', ref: '詩篇 30:5', word: '憂傷的季節終會過去。在黑暗的盡頭，祂已經為你預備了最燦爛的晨光。' }
+        ],
+        grateful: [
+            { title: '恩典滿溢', verse: '「要常常喜樂，不住地禱告，凡事謝恩。」', ref: '帖撒羅尼迦前書 5:16-18', word: '感恩是開啟天堂之門的鑰匙。當你數算恩典時，你會發現祂的慈愛比早晨的陽光更清新。' },
+            { title: '福杯滿溢', verse: '「我的一生一世必有恩惠慈愛隨著我。」', ref: '詩篇 23:6', word: '你所擁有的每一刻呼吸都是恩典。在平凡的日子裡，看見造物主不平凡的細膩安排。' }
+        ],
+        strength: [
+            { title: '展翅如鷹', verse: '「但那等候耶和華的，必重新得力。他們必如鷹展翅上騰。」', ref: '以賽亞書 40:31', word: '等候不是停滯，而是儲備力量。當風暴來臨時，祂的愛會成為載著你飛越的高山。' },
+            { title: '堅固的攀石', verse: '「我靠著那加給我力量的，凡事都能做。」', ref: '腓立比書 4:13', word: '力量不在於你的肌肉，而在於你的信心。將信心錨定在磐石上，你將無所畏懼。' }
+        ]
     };
 
     function drawBlessing(theme, el) {
         el.classList.add('shaking');
         setTimeout(() => {
             el.classList.remove('shaking');
-            const b = BLESSINGS[theme];
+            const options = BLESSINGS[theme];
+            const b = options[Math.floor(Math.random() * options.length)];
             document.getElementById('bless-title').innerText = b.title;
             document.getElementById('bless-verse').innerText = b.verse;
             document.getElementById('bless-ref').innerText = b.ref;
