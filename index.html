@@ -29,11 +29,20 @@
 
     <style>
         .glass-nav {
-            background: rgba(255,255,255,0.88);
+            background: rgba(18, 14, 12, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(200,180,170,0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
         }
+        .glass-nav.scrolled {
+            background: rgba(18, 14, 12, 0.95);
+            border-bottom-color: rgba(217, 119, 6, 0.3);
+        }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #d97706; transition: width 0.3s ease; }
+        .nav-link.active { color: #f59e0b !important; }
+        .nav-link.active::after { width: 100%; }
         /* ── Cinematic Gallery Card ── */
         .cine-card { position: relative; overflow: hidden; border-radius: 1rem; cursor: pointer; aspect-ratio: 3/4; }
         .cine-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.6s ease; filter: brightness(0.75); }
@@ -62,10 +71,7 @@
         .hero-t  { animation: heroFadeIn 1.3s ease both; }
         .hero-t2 { animation: heroFadeIn 1.6s ease 0.25s both; }
 
-        /* ── Scroll Snapping ── */
-        html { scroll-snap-type: y mandatory; scroll-padding-top: 5rem; }
-        section { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-        
+        /* ── Animation Helpers ── */
         /* ── Interaction Hint Pulsing ── */
         @keyframes pulse-hint { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
         .click-hint { animation: pulse-hint 2.5s infinite; }
@@ -137,15 +143,15 @@
 <nav class="fixed w-full z-50 glass-nav">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">
-            <a href="#home" class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-warm-900">光影與真理</a>
+            <a href="#home" class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-white">光影與真理</a>
             <div class="hidden md:flex items-center space-x-5">
-                <a href="#home"    class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">首頁</a>
-                <a href="#service" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">僕人腳蹤</a>
-                <a href="#gallery" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">光影默想</a>
-                <a href="#stories" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">光影故事</a>
-                <a href="#blessing" class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">心靈抽籤</a>
-                <a href="#map"     class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">教會地圖</a>
-                <a href="#ai"      class="text-warm-800 hover:text-amber-700 px-2 py-2 text-sm font-medium transition-colors">創作紀錄</a>
+                <a href="#home"    class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">首頁</a>
+                <a href="#service" class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">僕人腳蹤</a>
+                <a href="#gallery" class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">光影默想</a>
+                <a href="#stories" class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">光影故事</a>
+                <a href="#blessing" class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">心靈抽籤</a>
+                <a href="#map"     class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">教會地圖</a>
+                <a href="#ai"      class="nav-link text-white/80 hover:text-amber-400 px-2 py-2 text-sm font-medium transition-colors">創作紀錄</a>
             </div>
             <button id="mobile-btn" class="md:hidden text-warm-900 p-2 focus:outline-none">
                 <svg id="icon-open" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
@@ -389,9 +395,14 @@
                     <p>後來我才明白，最動人的照片，往往不是精心等待的那一張，而是你放棄掌控、讓恩典闖入的那一秒。陪伴他們的那段時光教會了我：攝影不是捕捉完美，而是學習放手，讓光自己找到位置。</p>
                     <p>「耶和華是我的牧者」——不是說祂替我安排好所有構圖，而是說無論鏡頭轉向哪裡，祂早已在那裡了。陪伴，才是最重要的付出。</p>
                 </div>
-                <div class="mt-6 pt-5 border-t border-white/10">
-                    <p class="font-serif italic text-amber-300 text-sm">「耶和華是我的牧者，我必不致缺乏。」</p>
-                    <p class="text-white/35 text-xs mt-1">— 詩篇 23:1</p>
+                <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                        <p class="font-serif italic text-amber-300 text-sm">「耶和華是我的牧者，我必不致缺乏。」</p>
+                        <p class="text-white/35 text-xs mt-1">— 詩篇 23:1</p>
+                    </div>
+                    <button onclick="openStoryModal(0)" class="text-xs text-amber-500/80 hover:text-amber-400 transition-colors flex items-center gap-1 group">
+                        閱讀全文 <span class="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
                 </div>
             </div>
 
@@ -409,9 +420,14 @@
                     <p>淨灘回家的路上，我想起那些在大山背山區生活的長者，和在部落第一次展露笑容的孩子。他們都與這塊石頭相似——生命是被歲月洗鍊過的。雖然辛苦，卻也正因如此而圓滿。</p>
                     <p>光影是暫借的，生命中所有美好的相遇也是暫借的。回報給造物主的，就是我們學會溫柔謝恩的理由。那塊被海浪磨掉稜角的鵝卵石，至今仍放在我的書桌前提醒著我。</p>
                 </div>
-                <div class="mt-6 pt-5 border-t border-white/10">
-                    <p class="font-serif italic text-amber-300 text-sm">「萬物皆借，唯愛永存。在光影間，尋見真理。」</p>
-                    <p class="text-white/35 text-xs mt-1">— 光影與真理 · 創作理念</p>
+                <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                        <p class="font-serif italic text-amber-300 text-sm">「萬物皆借，唯愛永存。在光影間，尋見真理。」</p>
+                        <p class="text-white/35 text-xs mt-1">— 光影與真理 · 創作理念</p>
+                    </div>
+                    <button onclick="openStoryModal(1)" class="text-xs text-amber-500/80 hover:text-amber-400 transition-colors flex items-center gap-1 group">
+                        閱讀全文 <span class="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -571,13 +587,13 @@
                     <div class="w-3 h-3 rounded-full bg-green-500"></div>
                     <span class="ml-2 text-xs font-mono text-gray-400">user-prompt.txt — Antigravity AI</span>
                 </div>
-                <pre class="text-gray-300 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap">
+                <pre class="text-gray-300 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap">我正在申請「網路分享獎學金」，主題定為「光影與真理：數位攝影福音展」。
 請為我撰寫一份結構嚴謹、美觀的單頁式 HTML 網站原始碼。
 
 網站內容核心需求（請嚴格遵守以下真實經歷，不要虛構）：
 
 我致力於在科技與信仰的交會之處，尋見光影間的真理。
-在分享區請註明：「透過光影與服務，感測生命的存在，如同感測上帝的恩典。」
+在 AI 分享區請註明：「透過光影與服務，感測生命的存在，如同感測上帝的恩典。」
 
 僕人腳蹤（志工服務專區）：需包含以下三個我曾擔任主辦/總召的經歷：
   1. 武漢部落 - 泰雅原鄉教育：擔任總召，帶領團隊前往尖石深山，
@@ -587,8 +603,8 @@
   3. 南方澳內埤 - 淨灘活動：擔任主辦發起淨灘，正視塑膠污染問題，
      這份對環境的關懷也啟發了我對生命與信仰的深刻思考。
 
-圖片來源：我將自己拍的照片放在GitHub 倉庫 Bs-Huang/MyGospelGallery，PHOTO 資料夾。
-  - 藝廊：8 張照片
+圖片來源：GitHub 倉庫 Bs-Huang/MyGospelGallery，PHOTO 資料夾。
+  - 藝廊：8 張 UUID 命名照片
   - 服務：圖片1-3 武漢部落、圖片4 大山背、圖片5 淨灘
 
 攝影藝廊：8 張照片，每張配福音小故事與聖經金句，點擊可放大。
@@ -601,7 +617,7 @@
     </div>
 </section>
 
-<footer class="bg-warm-900 text-warm-50 py-14 text-center">
+<footer class="bg-warm-900 text-warm-50 py-14 text-center" data-aos="fade-up">
     <h2 class="font-serif text-3xl font-bold mb-3">光影與真理</h2>
     <p class="text-warm-100/50 text-sm">數位攝影福音展 · 2026</p>
 </footer>
@@ -740,6 +756,58 @@
     }
     function closeBlessing() { document.getElementById('bless-modal').classList.add('hidden'); }
 
+    // ── SCROLL SPY & NAV LOGIC ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navBar = document.querySelector('nav');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPos = window.pageYOffset + 100;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+
+        if (window.scrollY > 50) navBar.classList.add('scrolled');
+        else navBar.classList.remove('scrolled');
+    });
+
+    // ── STORY MODAL LOGIC ──
+    const LONG_STORIES = [
+        {
+            title: '快門之前的一秒',
+            content: `有一天，我帶著相機走入尖石鄉的山林。陽光在樹蔭間灑落，把地面織成一張光影交錯的網。我衡量了很久，卻始終沒有按下快門。<br><br>就在這時，一個小男孩從我身後跑過，追著一隻黃色蝴蝶。他的笑聲清脆，迴盪在林間。我瞬間忘了光線角度，本能地按下快門。<br><br>後來我才明白，最動人的照片，往往不是精心等待的那一張，而是當你放下預設，全然投入生命的那一刻。那捕捉到的不只是光，而是上帝在那一秒鐘賜下的純真。這份純真讓我體會到，攝影不只是記錄，更是一種對生命的敬畏。`
+        },
+        {
+            title: '淨灘的鵝卵石',
+            content: `在南方澳內埤淨灘的那個下午，我彎下腰撿起一塊不起眼的鵝卵石。它的表面圓潤，這不是人工的刻意，而是海浪幾十年不斷沖刷的結果。<br><br>我心裡突然產生一個想法：這塊石頭原本也許嶙峋帶尖，帶著犀利的角。但海浪年年洗禮，它溫柔地交出自己，越來越圓，越來越安穩。<br><br>淨灘回家的路上，我想起那些在大山背山區生活的長者，和在部落第一次展露笑容的孩子。他們都與這塊石頭相似——生命是被歲月洗鍊過的。雖然辛苦，卻也正因如此而圓滿。<br><br>光影是暫借的，生命中所有美好的相遇也是暫借的。回報給造物主的，就是我們學會溫柔謝恩的理由。那塊被海浪磨掉稜角的鵝卵石，至今仍放在我的書桌前提醒著我。`
+        }
+    ];
+
+    function openStoryModal(index) {
+        const s = LONG_STORIES[index];
+        document.getElementById('story-modal-title').innerText = s.title;
+        document.getElementById('story-modal-body').innerHTML = s.content;
+        document.getElementById('story-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeStoryModal() {
+        document.getElementById('story-modal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
     // ── PRELOADER FADEOUT ──
     window.addEventListener('load', () => {
         const loader = document.getElementById('preloader');
@@ -761,6 +829,20 @@
         <div class="w-12 h-1 bg-amber-100 mx-auto mb-8 rounded-full"></div>
         <p id="bless-word" class="text-warm-800/85 leading-loose text-base sm:text-lg mb-4"></p>
         <button onclick="closeBlessing()" class="mt-6 bg-warm-900 text-white px-10 py-3 rounded-full hover:bg-amber-800 transition-all font-medium">領受這份恩典</button>
+    </div>
+</div>
+
+<!-- ── STORY MODAL ── -->
+<div id="story-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-warm-900/90 backdrop-blur-xl" onclick="closeStoryModal()"></div>
+    <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 shadow-2xl">
+        <button onclick="closeStoryModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-xl">✕</button>
+        <div class="text-amber-600 text-xs font-bold tracking-widest uppercase mb-2">Extended Story</div>
+        <h3 id="story-modal-title" class="font-serif text-3xl font-bold text-warm-900 mb-8"></h3>
+        <div id="story-modal-body" class="text-warm-800/90 leading-loose text-lg font-serif space-y-6"></div>
+        <div class="mt-12 pt-8 border-t border-warm-100 text-center">
+            <button onclick="closeStoryModal()" class="bg-warm-900 text-white px-8 py-3 rounded-full hover:bg-amber-800 transition-all">關閉故事</button>
+        </div>
     </div>
 </div>
 </body>
